@@ -10,23 +10,27 @@ public class SpotController {
 
     @Autowired
     private SpotRepository spotRepository;
+    @Autowired
+    private SightRepository sightRepository;
 
-    /**
-     * 查询所有景点列表
-     * @return
-     */
     @GetMapping(value = "/spot/list")
     public List<Spot> spotList() {
-        System.out.println(spotRepository.findAll());
         return spotRepository.findAll();
     }
 
-
     @PostMapping(value = "/spot/add")
-    public Spot spotAdd(@RequestParam("name") String name, @RequestParam("introduce") String introduce) {
+    public Spot spotAdd(@RequestParam("id") Integer id,
+                        @RequestParam("name") String name,
+                        @RequestParam("introduce") String introduce) {
+        Sight sight = sightRepository.findById(id).orElse(null);
+        if (sight == null) {
+            return null;
+        }
+
         Spot spot = new Spot();
         spot.setName(name);
         spot.setIntroduce(introduce);
+        spot.setSight(sight);
 
         return spotRepository.save(spot);
     }
@@ -40,10 +44,16 @@ public class SpotController {
     public Spot spotUpdate(@RequestParam("id") Integer id,
                            @RequestParam("name") String name,
                            @RequestParam("introduce") String introduce){
+        Spot oldSpot = spotRepository.findById(id).orElse(null);
+        if (oldSpot == null) {
+            return null;
+        }
+
         Spot spot = new Spot();
         spot.setId(id);
         spot.setName(name);
         spot.setIntroduce(introduce);
+        spot.setSight(oldSpot.getSight());
 
         return spotRepository.save(spot);
 

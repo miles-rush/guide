@@ -1,16 +1,11 @@
 package com.miles.demo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.jvnet.fastinfoset.Vocabulary;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
-public class Spot {
+public class Sight {
     @Id
     @GeneratedValue
     private Integer id;
@@ -21,33 +16,10 @@ public class Spot {
 
     private String coordinate;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "spot")
-    private List<Voice> voices;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "sight")
+    private List<Spot> spots;//大景区下的许多小景点
 
-    @JsonIgnore
-    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST},optional = false)
-    @JoinColumn(name = "sight_id")
-    private Sight sight;
-
-    public Sight getSight() {
-        return sight;
-    }
-
-    public void setSight(Sight sight) {
-        this.sight = sight;
-    }
-
-    public List<Voice> getVoices() {
-        return voices;
-    }
-
-    public void setVoices(List<Voice> voices) {
-        this.voices = voices;
-    }
-
-    public Spot(){
-
-    }
+    public Sight() {}
 
     public Integer getId() {
         return id;
@@ -79,5 +51,13 @@ public class Spot {
 
     public void setCoordinate(String coordinate) {
         this.coordinate = coordinate;
+    }
+
+    public List<Spot> getSpots() {
+        return spots;
+    }
+
+    public void setSpots(List<Spot> spots) {
+        this.spots = spots;
     }
 }
