@@ -44,13 +44,28 @@ public class VoiceController {
             voice.setSpot(spot);
 
             voiceRepository.save(voice);
-
-
             return CODE_OK;
         } catch (IOException e) {
             e.printStackTrace();
             return CODE_FAIL;
         }
-
     }
+
+
+    @PostMapping(value = "/voice/delete")
+    public ResponseCode voiceDelete(@RequestParam("id") Integer id) {
+        if (voiceRepository.findById(id).orElse(null) != null) {
+            voiceRepository.deleteById(id);
+            return CODE_OK;
+        }else {
+            return CODE_FAIL_ID;
+        }
+    }
+
+    @PostMapping(value = "/voice/update")
+    public ResponseCode voiceUpdate(@RequestParam("id") Integer id,@RequestParam("file") MultipartFile file) {
+
+        return CODE_OK;
+    }
+
 }
