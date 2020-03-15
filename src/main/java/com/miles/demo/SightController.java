@@ -18,14 +18,18 @@ public class SightController {
         return sightRepository.findAll();
     }
 
-
+    static ResponseCode ADD_OK = new ResponseCode(1,"add success");
+    static ResponseCode ADD_FAIL = new ResponseCode(0,"add fail");
     @PostMapping(value = "/sight/add")
-    public Sight spotAdd(@RequestParam("name") String name, @RequestParam("introduce") String introduce) {
+    public ResponseCode spotAdd(@RequestParam("name") String name, @RequestParam("introduce") String introduce) {
         Sight sight = new Sight();
         sight.setName(name);
         sight.setIntroduce(introduce);
+        if (sightRepository.save(sight) != null) {
+            return ADD_OK;
+        }
 
-        return sightRepository.save(sight);
+        return ADD_FAIL;
     }
 
     @GetMapping(value = "/sight/query")
@@ -33,20 +37,23 @@ public class SightController {
         return sightRepository.findById(id).orElse(null);
     }
 
+    static ResponseCode UPDATE_OK = new ResponseCode(1,"update success");
+    static ResponseCode UPDATE_FAIL = new ResponseCode(0,"update fail");
     @PostMapping(value = "/sight/update")
-    public Sight spotUpdate(@RequestParam("id") Integer id,
+    public ResponseCode spotUpdate(@RequestParam("id") Integer id,
                            @RequestParam("name") String name,
                            @RequestParam("introduce") String introduce){
         Sight sight = new Sight();
         sight.setId(id);
         sight.setName(name);
         sight.setIntroduce(introduce);
-
-        return sightRepository.save(sight);
-
+        if (sightRepository.save(sight) != null) {
+            return UPDATE_OK;
+        }
+        return UPDATE_FAIL;
     }
 
-    @PostMapping(value = "/sight/delete")
+    @GetMapping(value = "/sight/delete")
     public ResponseCode spotDelete(@RequestParam("id") Integer id) {
         if (sightRepository.findById(id).orElse(null) != null) {
             sightRepository.deleteById(id);

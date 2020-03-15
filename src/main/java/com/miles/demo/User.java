@@ -25,7 +25,7 @@ public class User {
     }
 
     public void setAdmin(Boolean admin) {
-        admin = admin;
+        this.admin = admin;
     }
 
     public Integer getId() {
