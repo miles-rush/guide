@@ -18,13 +18,15 @@ public class SpotController {
         return spotRepository.findAll();
     }
 
+    static ResponseCode ADD_OK = new ResponseCode(1,"add success");
+    static ResponseCode ADD_FAIL = new ResponseCode(0,"add fail");
     @PostMapping(value = "/spot/add")
-    public Spot spotAdd(@RequestParam("id") Integer id,
+    public ResponseCode spotAdd(@RequestParam("id") Integer id,
                         @RequestParam("name") String name,
                         @RequestParam("introduce") String introduce) {
         Sight sight = sightRepository.findById(id).orElse(null);
         if (sight == null) {
-            return null;
+            return ADD_FAIL;
         }
 
         Spot spot = new Spot();
@@ -32,7 +34,11 @@ public class SpotController {
         spot.setIntroduce(introduce);
         spot.setSight(sight);
 
-        return spotRepository.save(spot);
+        Spot result = spotRepository.save(spot);
+        if (result != null) {
+            return new ResponseCode(1,"add success", result.getId());
+        }
+        return ADD_FAIL;
     }
 
     @GetMapping(value = "/spot/query")
@@ -40,13 +46,15 @@ public class SpotController {
         return spotRepository.findById(id).orElse(null);
     }
 
+    static ResponseCode UPDATE_OK = new ResponseCode(1,"update success");
+    static ResponseCode UPDATE_FAIL = new ResponseCode(0,"update fail");
     @PostMapping(value = "/spot/update")
-    public Spot spotUpdate(@RequestParam("id") Integer id,
+    public ResponseCode spotUpdate(@RequestParam("id") Integer id,
                            @RequestParam("name") String name,
                            @RequestParam("introduce") String introduce){
         Spot oldSpot = spotRepository.findById(id).orElse(null);
         if (oldSpot == null) {
-            return null;
+            return UPDATE_FAIL;
         }
 
         Spot spot = new Spot();
@@ -54,12 +62,14 @@ public class SpotController {
         spot.setName(name);
         spot.setIntroduce(introduce);
         spot.setSight(oldSpot.getSight());
-
-        return spotRepository.save(spot);
-
+        if (spotRepository.save(spot) != null) {
+            return UPDATE_OK;
+        } else {
+            return UPDATE_FAIL;
+        }
     }
 
-    @PostMapping(value = "/spot/delete")
+    @GetMapping(value = "/spot/delete")
     public ResponseCode spotDelete(@RequestParam("id") Integer id) {
         if (spotRepository.findById(id).orElse(null) != null) {
             spotRepository.deleteById(id);

@@ -40,7 +40,7 @@ public class UserController {
         User user = userRepository.findByUserAccountAndPassword(account,password);
         if (user != null) {
             ResponseCode LOGIN_OK = new ResponseCode(1,"login success", user.getId());
-            ResponseCode LOGIN_OK_ADMIN = new ResponseCode(1,"login success admin", user.getId());
+            ResponseCode LOGIN_OK_ADMIN = new ResponseCode(2,"login success admin", user.getId());
             if (user.getAdmin()) {
                 return LOGIN_OK_ADMIN;
             }
@@ -72,7 +72,7 @@ public class UserController {
                 newUser.setId(id);
                 newUser.setAccount(user.getAccount());
                 newUser.setPassword(newPassword);
-                newUser.setAdmin(Boolean.TRUE);
+                newUser.setAdmin(user.getAdmin());
                 if (userRepository.save(newUser) != null) {
                     return EDIT_OK;
                 }else {

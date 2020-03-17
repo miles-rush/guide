@@ -24,7 +24,6 @@ public class VoiceController {
     @Autowired
     private SpotRepository spotRepository;
 
-
     @PostMapping(value = "/voice/upload")
     public ResponseCode voiceUpload(@RequestParam("file") MultipartFile file, @RequestParam("id") Integer id) {
         Spot spot = spotRepository.findById(id).orElse(null);
@@ -32,17 +31,15 @@ public class VoiceController {
             return CODE_FAIL_ID;
         }
         try {
-
             byte[] bytes = file.getBytes();
+            //String filePath = "D:\\voice\\" + file.getName() + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
             String filePath = "D:\\voice\\" + new Date().getTime() + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
             Path path = Paths.get(filePath);
             Files.write(path, bytes);
-
             Voice voice = new Voice();
+            voice.setName(file.getName());
             voice.setFilePath(filePath);
-
             voice.setSpot(spot);
-
             voiceRepository.save(voice);
             return CODE_OK;
         } catch (IOException e) {

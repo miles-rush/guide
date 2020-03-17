@@ -13,13 +13,7 @@ public class Voice {
 
     private String filePath;
 
-    public Spot getSpot() {
-        return spot;
-    }
-
-    public void setSpot(Spot spot) {
-        this.spot = spot;
-    }
+    private String name;
 
     @JsonIgnore
     @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST},optional = false)
@@ -27,6 +21,22 @@ public class Voice {
     private Spot spot;
 
     public Voice() {}
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Spot getSpot() {
+        return spot;
+    }
+
+    public void setSpot(Spot spot) {
+        this.spot = spot;
+    }
 
     public Integer getId() {
         return id;

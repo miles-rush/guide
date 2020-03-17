@@ -27,9 +27,10 @@ public class SightController {
         sight.setIntroduce(introduce);
         if (sightRepository.save(sight) != null) {
             return ADD_OK;
+        }else {
+            return ADD_FAIL;
         }
 
-        return ADD_FAIL;
     }
 
     @GetMapping(value = "/sight/query")
