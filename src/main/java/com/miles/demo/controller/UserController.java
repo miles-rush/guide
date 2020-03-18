@@ -1,6 +1,9 @@
-package com.miles.demo;
+package com.miles.demo.controller;
 
 
+import com.miles.demo.bean.ResponseCode;
+import com.miles.demo.bean.User;
+import com.miles.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

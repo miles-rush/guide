@@ -1,5 +1,6 @@
-package com.miles.demo;
+package com.miles.demo.repository;
 
+import com.miles.demo.bean.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

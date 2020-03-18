@@ -1,9 +1,7 @@
-package com.miles.demo;
+package com.miles.demo.repository;
 
+import com.miles.demo.bean.Spot;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-
-import java.util.List;
 
 
 public interface SpotRepository extends JpaRepository<Spot, Integer> {

@@ -1,6 +1,4 @@
-package com.miles.demo;
-
-import javax.persistence.criteria.CriteriaBuilder;
+package com.miles.demo.bean;
 
 public class ResponseCode {
     private Integer code;

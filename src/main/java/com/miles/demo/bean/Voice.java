@@ -1,19 +1,20 @@
-package com.miles.demo;
+package com.miles.demo.bean;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
 
 @Entity
 public class Voice {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String filePath;
 
-    private String name;
+    private String name;//用户设定的该段音频名称
+
+    private String resourcesPath;//服务器资源链接
 
     @JsonIgnore
     @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST},optional = false)
@@ -21,6 +22,14 @@ public class Voice {
     private Spot spot;
 
     public Voice() {}
+
+    public String getResourcesPath() {
+        return resourcesPath;
+    }
+
+    public void setResourcesPath(String resourcesPath) {
+        this.resourcesPath = resourcesPath;
+    }
 
     public String getName() {
         return name;

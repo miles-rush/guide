@@ -1,13 +1,14 @@
-package com.miles.demo;
+package com.miles.demo.bean;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Sight {
+public class Spot {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;
@@ -16,10 +17,33 @@ public class Sight {
 
     private String coordinate;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "sight")
-    private List<Spot> spots;//大景区下的许多小景点
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "spot")
+    private List<Voice> voices;
 
-    public Sight() {}
+    @JsonIgnore
+    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST},optional = false)
+    @JoinColumn(name = "sight_id")
+    private Sight sight;
+
+    public Sight getSight() {
+        return sight;
+    }
+
+    public void setSight(Sight sight) {
+        this.sight = sight;
+    }
+
+    public List<Voice> getVoices() {
+        return voices;
+    }
+
+    public void setVoices(List<Voice> voices) {
+        this.voices = voices;
+    }
+
+    public Spot(){
+
+    }
 
     public Integer getId() {
         return id;
@@ -51,13 +75,5 @@ public class Sight {
 
     public void setCoordinate(String coordinate) {
         this.coordinate = coordinate;
-    }
-
-    public List<Spot> getSpots() {
-        return spots;
-    }
-
-    public void setSpots(List<Spot> spots) {
-        this.spots = spots;
     }
 }

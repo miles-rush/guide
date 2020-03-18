@@ -1,5 +1,8 @@
-package com.miles.demo;
+package com.miles.demo.controller;
 
+import com.miles.demo.bean.ResponseCode;
+import com.miles.demo.bean.Sight;
+import com.miles.demo.repository.SightRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,13 +57,15 @@ public class SightController {
         return UPDATE_FAIL;
     }
 
+    static ResponseCode DELETE_OK = new ResponseCode(1,"delete voice success");
+    static ResponseCode DELETE_FAIL = new ResponseCode(0,"delete voice fail");
     @GetMapping(value = "/sight/delete")
     public ResponseCode spotDelete(@RequestParam("id") Integer id) {
         if (sightRepository.findById(id).orElse(null) != null) {
             sightRepository.deleteById(id);
-            return VoiceController.CODE_OK;
+            return DELETE_OK;
         }else {
-            return VoiceController.CODE_FAIL_ID;
+            return DELETE_FAIL;
         }
 
     }
