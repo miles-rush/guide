@@ -29,7 +29,7 @@ public class VoiceController {
     private SpotRepository spotRepository;
     //上传中的ID是spotID
     @PostMapping(value = "/voice/upload")
-    public ResponseCode voiceUpload(@RequestParam("file") MultipartFile file, @RequestParam("id") Integer id) {
+    public ResponseCode voiceUpload(@RequestParam("file") MultipartFile file, @RequestParam("id") Integer id, @RequestParam("name") String name) {
         Spot spot = spotRepository.findById(id).orElse(null);
         if (spot == null) {
             return CODE_FAIL_ID;
@@ -41,8 +41,8 @@ public class VoiceController {
             Path path = Paths.get(filePath);
             Files.write(path, bytes);
             Voice voice = new Voice();
-            voice.setName(file.getName());
-            voice.setResourcesPath(fileName);
+            voice.setName(name);
+            voice.setResourcesPath(fileName + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")));
             voice.setFilePath(filePath);
             voice.setSpot(spot);
             voiceRepository.save(voice);
@@ -69,7 +69,7 @@ public class VoiceController {
     static ResponseCode UPDATE_OK = new ResponseCode(1,"update voice success");
     static ResponseCode UPDATE_FAIL = new ResponseCode(0,"update voice fail");
     @PostMapping(value = "/voice/update")
-    public ResponseCode voiceUpdate(@RequestParam("id") Integer id,@RequestParam("file") MultipartFile file) {
+    public ResponseCode voiceUpdate(@RequestParam("id") Integer id,@RequestParam("file") MultipartFile file,@RequestParam("name") String name) {
         Voice voice = voiceRepository.findById(id).orElse(null);
         if (voice == null) {
             return CODE_FAIL_ID;
@@ -83,11 +83,11 @@ public class VoiceController {
             //更新
             Voice newVoice = new Voice();
             newVoice.setId(voice.getId());
-            newVoice.setName(file.getName());
-            newVoice.setResourcesPath(fileName);
+            newVoice.setName(name);
+            newVoice.setResourcesPath(fileName + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")));
             newVoice.setFilePath(filePath);
             newVoice.setSpot(voice.getSpot());
-            if (voiceRepository.save(voice) != null) {
+            if (voiceRepository.save(newVoice) != null) {
                 return UPDATE_OK;
             }
             return UPDATE_FAIL;
@@ -96,5 +96,24 @@ public class VoiceController {
             return UPDATE_FAIL;
         }
     }
+
+    @PostMapping(value = "/voice/updateName")
+    public ResponseCode voiceUpdateName(@RequestParam("id") Integer id,@RequestParam("name") String name) {
+        Voice voice = voiceRepository.findById(id).orElse(null);
+        if (voice == null) {
+            return CODE_FAIL_ID;
+        }
+        Voice newVoice = new Voice();
+        newVoice.setId(voice.getId());
+        newVoice.setName(name);
+        newVoice.setResourcesPath(voice.getResourcesPath());
+        newVoice.setFilePath(voice.getFilePath());
+        newVoice.setSpot(voice.getSpot());
+        if (voiceRepository.save(newVoice) != null) {
+            return UPDATE_OK;
+        }
+        return UPDATE_FAIL;
+    }
+
 
 }
