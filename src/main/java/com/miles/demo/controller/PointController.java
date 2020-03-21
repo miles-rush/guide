@@ -25,12 +25,14 @@ public class PointController {
     @PostMapping(value = "/point/add")
     public ResponseCode pointAdd(@RequestParam("id") Integer id,
                                  @RequestParam("name") String name,
-                                 @RequestParam("coordinate") String coordinate) {
+                                 @RequestParam("longitude") String longitude,
+                                 @RequestParam("latitude") String latitude) {
         Sight sight = sightRepository.findById(id).orElse(null);
         if (sight != null) {
             Point point = new Point();
             point.setName(name);
-            point.setCoordinate(coordinate);
+            point.setLongitude(longitude);
+            point.setLatitude(latitude);
             point.setSight(sight);
             if (pointRepository.save(point) != null) {
                 return ADD_OK;

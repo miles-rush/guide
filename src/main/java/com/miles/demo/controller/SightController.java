@@ -28,8 +28,9 @@ public class SightController {
         Sight sight = new Sight();
         sight.setName(name);
         sight.setIntroduce(introduce);
-        if (sightRepository.save(sight) != null) {
-            return ADD_OK;
+		Sight resSight = sightRepository.save(sight);
+        if (resSight != null) {
+            return new ResponseCode(1,"add success",resSight.getId());
         }else {
             return ADD_FAIL;
         }

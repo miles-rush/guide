@@ -14,6 +14,10 @@ public class Point {
 
     private String name;//对应名称
 
+    private String longitude;//经度
+
+    private String latitude;//纬度
+
     @JsonIgnore
     @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST},optional = false)
     @JoinColumn(name = "sight_id")
@@ -51,5 +55,21 @@ public class Point {
 
     public void setSight(Sight sight) {
         this.sight = sight;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
     }
 }
