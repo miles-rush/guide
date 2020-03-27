@@ -76,7 +76,7 @@ public class SpotController {
 
     static ResponseCode DELETE_OK = new ResponseCode(1,"delete spot success");
     static ResponseCode DELETE_FAIL = new ResponseCode(0,"delete spot fail");
-    @GetMapping(value = "/spot/delete")
+    @PostMapping(value = "/spot/delete")
     public ResponseCode spotDelete(@RequestParam("id") Integer id) {
         if (spotRepository.findById(id).orElse(null) != null) {
             spotRepository.deleteById(id);

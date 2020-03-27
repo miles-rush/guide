@@ -43,20 +43,25 @@ public class PointController {
         return ID_FAIL;
     }
 
+	@GetMapping(value = "/point/query")
+    public Point pointFindOne(@RequestParam("id") Integer id) {
+        return pointRepository.findById(id).orElse(null);
+    }
+
     static ResponseCode UPDATE_OK = new ResponseCode(1,"update point success");
     static ResponseCode UPDATE_FAIL = new ResponseCode(0,"update point fail");
     //id=pointId
     @PostMapping(value = "/point/update")
     public ResponseCode pointUpdate(@RequestParam("id") Integer id,
-                                 @RequestParam("name") String name,
-                                 @RequestParam("coordinate") String coordinate) {
+                                 @RequestParam("name") String name) {
         Point point = pointRepository.findById(id).orElse(null);
         if (point != null) {
             Point newPoint = new Point();
             newPoint.setId(point.getId());
             newPoint.setSight(point.getSight());
             newPoint.setName(name);
-            newPoint.setCoordinate(coordinate);
+            newPoint.setLongitude(point.getLongitude());
+            newPoint.setLatitude(point.getLatitude());
             if (pointRepository.save(newPoint) != null) {
                 return UPDATE_OK;
             }else {
@@ -70,7 +75,7 @@ public class PointController {
     static ResponseCode DELETE_OK = new ResponseCode(1,"delete point success");
     static ResponseCode DELETE_FAIL = new ResponseCode(0,"delete point fail");
     //id=pointId
-    @GetMapping(value = "/point/delete")
+    @PostMapping(value = "/point/delete")
     public ResponseCode pointDelete(@RequestParam("id") Integer id) {
         if (pointRepository.findById(id).orElse(null) != null) {
             pointRepository.deleteById(id);

@@ -60,7 +60,7 @@ public class SightController {
 
     static ResponseCode DELETE_OK = new ResponseCode(1,"delete voice success");
     static ResponseCode DELETE_FAIL = new ResponseCode(0,"delete voice fail");
-    @GetMapping(value = "/sight/delete")
+    @PostMapping(value = "/sight/delete")
     public ResponseCode spotDelete(@RequestParam("id") Integer id) {
         if (sightRepository.findById(id).orElse(null) != null) {
             sightRepository.deleteById(id);
