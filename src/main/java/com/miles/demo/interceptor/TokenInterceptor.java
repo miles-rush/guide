@@ -18,6 +18,12 @@ public class TokenInterceptor implements HandlerInterceptor {
             return true;
         }
 
+        if (request.getMethod().equals("POST")) {
+            response.setStatus(HttpServletResponse.SC_OK);
+            System.out.println("POST方法放行");
+            return true;
+        }
+
         response.setCharacterEncoding("utf-8");
         String token = request.getHeader("admin-token");
         if (token != null) {

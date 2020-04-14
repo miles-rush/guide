@@ -3,8 +3,10 @@ package com.miles.demo.controller;
 import com.miles.demo.bean.Point;
 import com.miles.demo.bean.ResponseCode;
 import com.miles.demo.bean.Sight;
+import com.miles.demo.bean.Spot;
 import com.miles.demo.repository.PointRepository;
 import com.miles.demo.repository.SightRepository;
+import com.miles.demo.repository.SpotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +19,7 @@ public class PointController {
     private PointRepository pointRepository;
     @Autowired
     private SightRepository sightRepository;
+
 
     static ResponseCode ADD_OK = new ResponseCode(1,"add success");
     static ResponseCode ADD_FAIL = new ResponseCode(0,"add fail");
@@ -42,6 +45,7 @@ public class PointController {
         }
         return ID_FAIL;
     }
+
 
 	@GetMapping(value = "/point/query")
     public Point pointFindOne(@RequestParam("id") Integer id) {

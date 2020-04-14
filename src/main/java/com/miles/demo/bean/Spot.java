@@ -25,6 +25,9 @@ public class Spot {
     @JoinColumn(name = "sight_id")
     private Sight sight;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "spot")
+    private SpotPoint point;//景区的多个入口 GPS定位设置 作为轨迹起点
+
     public Sight getSight() {
         return sight;
     }
@@ -75,5 +78,13 @@ public class Spot {
 
     public void setCoordinate(String coordinate) {
         this.coordinate = coordinate;
+    }
+
+    public SpotPoint getPoint() {
+        return point;
+    }
+
+    public void setPoint(SpotPoint point) {
+        this.point = point;
     }
 }

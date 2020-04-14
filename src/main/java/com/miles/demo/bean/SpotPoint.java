@@ -5,26 +5,22 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 
 @Entity
-public class Point {
+public class SpotPoint {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    private String coordinate;//坐标
-
-    private String name;//对应名称
 
     private String longitude;//经度
 
     private String latitude;//纬度
 
     @JsonIgnore
-    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST},optional = false)
-    @JoinColumn(name = "sight_id")
-    private Sight sight;
+    @OneToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST},optional = false)
+    @JoinColumn(name = "spot_id")
+    private Spot spot;
 
-
-    public Point() {}
+    public SpotPoint(){}
 
     public Integer getId() {
         return id;
@@ -32,30 +28,6 @@ public class Point {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getCoordinate() {
-        return coordinate;
-    }
-
-    public void setCoordinate(String coordinate) {
-        this.coordinate = coordinate;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Sight getSight() {
-        return sight;
-    }
-
-    public void setSight(Sight sight) {
-        this.sight = sight;
     }
 
     public String getLongitude() {
@@ -74,5 +46,11 @@ public class Point {
         this.latitude = latitude;
     }
 
+    public Spot getSpot() {
+        return spot;
+    }
 
+    public void setSpot(Spot spot) {
+        this.spot = spot;
+    }
 }
