@@ -24,10 +24,17 @@ public class SightController {
     static ResponseCode ADD_OK = new ResponseCode(1,"add success");
     static ResponseCode ADD_FAIL = new ResponseCode(0,"add fail");
     @PostMapping(value = "/sight/add")
-    public ResponseCode spotAdd(@RequestParam("name") String name, @RequestParam("introduce") String introduce) {
+    public ResponseCode spotAdd(@RequestParam("name") String name,
+                                @RequestParam("introduce") String introduce,
+                                @RequestParam("address") String address,
+                                @RequestParam("contact") String contact) {
         Sight sight = new Sight();
         sight.setName(name);
         sight.setIntroduce(introduce);
+
+        sight.setAddress(address);
+        sight.setContact(contact);
+
 		Sight resSight = sightRepository.save(sight);
         if (resSight != null) {
             return new ResponseCode(1,"add success",resSight.getId());
@@ -46,12 +53,18 @@ public class SightController {
     static ResponseCode UPDATE_FAIL = new ResponseCode(0,"update fail");
     @PostMapping(value = "/sight/update")
     public ResponseCode spotUpdate(@RequestParam("id") Integer id,
-                           @RequestParam("name") String name,
-                           @RequestParam("introduce") String introduce){
+                                   @RequestParam("name") String name,
+                                   @RequestParam("introduce") String introduce,
+                                   @RequestParam("address") String address,
+                                   @RequestParam("contact") String contact){
         Sight sight = new Sight();
         sight.setId(id);
         sight.setName(name);
         sight.setIntroduce(introduce);
+
+        sight.setAddress(address);
+        sight.setContact(contact);
+
         if (sightRepository.save(sight) != null) {
             return UPDATE_OK;
         }

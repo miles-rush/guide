@@ -16,6 +16,10 @@ public class Sight {
 
     private String coordinate;
 
+    private String address;
+
+    private String contact;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "sight")
     private List<Spot> spots;//大景区下的许多小景点
 
@@ -54,6 +58,22 @@ public class Sight {
 
     public void setCoordinate(String coordinate) {
         this.coordinate = coordinate;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
     }
 
     public List<Spot> getSpots() {
