@@ -16,7 +16,7 @@ public class SpotPoint {
     private String latitude;//纬度
 
     @JsonIgnore
-    @OneToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST},optional = false)
+    @OneToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "spot_id")
     private Spot spot;
 
